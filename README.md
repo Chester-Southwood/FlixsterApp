@@ -51,7 +51,7 @@ Describe any challenges encountered while building the app.
 - [ ] (2pts) For popular movies (i.e. a movie voted for more than 5 stars), the full backdrop image is displayed. Otherwise, a poster image, the movie title, and overview is listed. Use Heterogenous RecyclerViews and use different ViewHolder layout files for popular movies and less popular ones.
 
 ### App Walkthough GIF
-![Imgur](https://i.imgur.com/PhLlAJe.gif)
+![Imgur](C:\Users\Lee\AndroidStudioProjects\FlixsterApp\gifs\part1\userStory.gif)
 
 Gif created using [ScreenToGif]( https://www.screentogif.com/ )
 
