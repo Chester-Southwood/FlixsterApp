@@ -1,19 +1,25 @@
 package com.example.myapplication.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.myapplication.DetailActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.models.Movie;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -46,23 +52,46 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         return moviesList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView  movieTitle,
+    public class ViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
+         TextView  movieTitle,
                           movieSynopsis;
-        private ImageView moviePoster;
+         ImageView moviePoster;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.movieTitle    = itemView.findViewById(R.id.movieTitle);
             this.movieSynopsis = itemView.findViewById(R.id.movieSynopsis);
             this.moviePoster   = itemView.findViewById(R.id.moviePoster);
+            // add listener for parcel to ViewHolder
+            itemView.setOnClickListener(this);
         }
 
-        public void bind(Movie movie) {
+        public void bind(final Movie movie) {
             String imageUrl = context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? movie.getBackDropPath() : movie.getPosterPath();
             this.movieTitle.setText(movie.getTitle());
             this.movieSynopsis.setText(movie.getOverView());
             Glide.with(context).load(imageUrl).into(this.moviePoster);
+            this.movieTitle.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    //android.widget.Toast.makeText(context, movie.getTitle(), Toast.LENGTH_SHORT).show();
+                    Intent intentDetailedActivity = new Intent(context, DetailActivity.class);
+                    intentDetailedActivity.putExtra("title", movie.getTitle());
+                    context.startActivity(intentDetailedActivity);
+                }
+            });
+        }
+
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            //Validadate position
+            if(position != RecyclerView.NO_POSITION) {
+                Movie movieAtPos = moviesList.get(position);
+                Intent intentDetails = new Intent(context, DetailActivity.class);
+                intentDetails.putExtra(Movie.class.getSimpleName(), Parcels.wrap(movieAtPos));
+                context.startActivity(intentDetails);
+            }
         }
     }
 
