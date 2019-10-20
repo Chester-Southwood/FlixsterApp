@@ -10,13 +10,13 @@ import java.util.List;
 
 @Parcel //Used for serialization
 public class Movie {
-    //Non-Private for Parcel
-    String backDropPath;
-    String posterPath;
-    String title;
-    String overView;
-    double voteAverage;
-    Integer id;
+
+    private int    id;
+    private double voteAverage;
+    private String backDropPath;
+    private String overView;
+    private String posterPath;
+    private String title;
 
     // DVC required by Parceler
     public Movie() {
@@ -24,42 +24,43 @@ public class Movie {
     }
 
     public Movie(JSONObject obj) throws JSONException {
-          this.backDropPath = obj.getString("backdrop_path");
-          this.posterPath   = obj.getString("poster_path");
-          this.title        = obj.getString("title");
-          this.overView     = obj.getString("overview");
-          this.voteAverage  = Double.parseDouble(obj.getString("vote_average"));
-          this.id           = Integer.parseInt(obj.getString("id"));
-    }
-
-    public String getPosterPath() {
-        return String.format("https://image.tmdb.org/t/p/w342/" + posterPath);
+        this.backDropPath = obj.getString("backdrop_path");
+        this.id           = Integer.parseInt(obj.getString("id"));
+        this.overView     = obj.getString("overview");
+        this.posterPath   = obj.getString("poster_path");
+        this.title        = obj.getString("title");
+        this.voteAverage  = Double.parseDouble(obj.getString("vote_average"));
     }
 
     public String getBackDropPath() {
-        return String.format("https://image.tmdb.org/t/p/w342/" + backDropPath);
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getOverView() {
-        return overView;
-    }
-
-    public double getVoteAverage() {
-        return voteAverage;
+        return String.format("https://image.tmdb.org/t/p/w342/%s", backDropPath);
     }
 
     public int getMovieId() {
         return id;
     }
 
+    public String getOverView() {
+        return overView;
+    }
+
+    public String getPosterPath() {
+        return String.format("https://image.tmdb.org/t/p/w342/%s", posterPath);
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public double getVoteAverage() {
+        return voteAverage;
+    }
+
     public static List<Movie> fromJSONArray(JSONArray movieJSONArray) throws JSONException {
-        List<Movie> movies = new ArrayList<Movie>();
-        for(int index = 0; index < movieJSONArray.length(); index++)
-            movies.add(new Movie(movieJSONArray.getJSONObject(index)));
-        return movies;
+        List<Movie> movieList = new ArrayList<Movie>();
+        for(int index = 0; index < movieJSONArray.length(); index++) {
+            movieList.add(new Movie(movieJSONArray.getJSONObject(index)));
+        }
+        return movieList;
     }
 }

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.myapplication.DetailActivity;
+import com.example.myapplication.activities.DetailActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.models.Movie;
 
@@ -27,37 +26,37 @@ import java.util.List;
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
 
     private Context      context;
-    private List<Movie>  moviesList;
+    private List<Movie>  movieList;
 
-    public MovieAdapter(Context context, List<Movie> moviesList) {
+    public MovieAdapter(final Context context, final List<Movie> movieList) {
         this.context    = context;
-        this.moviesList = moviesList;
-    }
-
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View movieView = LayoutInflater.from(context).inflate(R.layout.item_movie, parent, false);
-        return new ViewHolder(movieView);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Movie movie = moviesList.get(position);
-        holder.bind(movie);
+        this.movieList  = movieList;
     }
 
     @Override
     public int getItemCount() {
-        return moviesList.size();
+        return movieList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
+    @Override
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+        Movie movie = movieList.get(position);
+        holder.bind(movie);
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
+        View movieView = LayoutInflater.from(context).inflate(R.layout.item_movie, parent, false);
+        return new ViewHolder(movieView);
+    }
+
+    protected class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
          TextView  movieTitle,
-                          movieSynopsis;
+                   movieSynopsis;
          ImageView moviePoster;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull final View itemView) {
             super(itemView);
             this.movieTitle    = itemView.findViewById(R.id.movieTitle);
             this.movieSynopsis = itemView.findViewById(R.id.movieSynopsis);
@@ -83,16 +82,18 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         }
 
         @Override
-        public void onClick(View view) {
-            int position = getAdapterPosition();
+        public void onClick(final View view) {
+            final int position = getAdapterPosition();
             //Validadate position
             if(position != RecyclerView.NO_POSITION) {
-                Movie movieAtPos = moviesList.get(position);
+                Movie movieAtPos = movieList.get(position);
                 Intent intentDetails = new Intent(context, DetailActivity.class);
                 intentDetails.putExtra(Movie.class.getSimpleName(), Parcels.wrap(movieAtPos));
                 context.startActivity(intentDetails);
+            } else {
+                //TODO Make better "catch"
+                Toast.makeText(context, "Cannot click here!!!", Toast.LENGTH_LONG);
             }
         }
     }
-
 }

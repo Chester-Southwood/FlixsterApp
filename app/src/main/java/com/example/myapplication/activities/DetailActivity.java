@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.example.myapplication.R;
 import com.example.myapplication.models.Movie;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -27,10 +28,9 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 public class DetailActivity extends YouTubeBaseActivity {
 
     Movie movie;
-
+    RatingBar ratingBar;
     TextView movieTitle;
     TextView movieSynopsis;
-    RatingBar ratingBar;
 
     final String YOUTUBE_API_BASE_URL = "https://api.themoviedb.org/3/movie/%d/videos?api_key=%s";
     static final String YOUTUBE_API_KEY = "a07e22bc18f5cb106bfe4cc1f83ad8ed";
@@ -79,7 +79,7 @@ public class DetailActivity extends YouTubeBaseActivity {
 
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-
+                //TODO Handle Failure Scenario
             }
         });
     }
@@ -89,9 +89,14 @@ public class DetailActivity extends YouTubeBaseActivity {
         youTubePlayerView.initialize(YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider,
-                                                YouTubePlayer youTubePlayer, boolean b) {
+                                                YouTubePlayer youTubePlayer,
+                                                boolean b) {
                 // do any work here to cue video, play video, etc.
                 youTubePlayer.cueVideo(youtubeKey);
+                if(movie.getVoteAverage() > 5) {
+                    youTubePlayer.loadVideo(youtubeKey);
+                    youTubePlayer.play();
+                }
             }
 
             @Override
