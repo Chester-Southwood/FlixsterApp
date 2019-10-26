@@ -27,26 +27,26 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 public class DetailActivity extends YouTubeBaseActivity {
 
-    Movie movie;
-    RatingBar ratingBar;
-    TextView movieTitle;
-    TextView movieSynopsis;
+    private Movie             movie;
+    private RatingBar         movieRatingBar;
+    private TextView          movieTitle;
+    private TextView          movieSynopsis;
+    private YouTubePlayerView youTubePlayerView;
 
     final String YOUTUBE_API_BASE_URL = "https://api.themoviedb.org/3/movie/%d/videos?api_key=%s";
-    static final String YOUTUBE_API_KEY = "a07e22bc18f5cb106bfe4cc1f83ad8ed";
-    YouTubePlayerView youTubePlayerView;
+    final String YOUTUBE_API_KEY      = "a07e22bc18f5cb106bfe4cc1f83ad8ed";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        movieTitle = (TextView) findViewById(R.id.movieTitle);
-        movieSynopsis = (TextView) findViewById(R.id.movieSynopsis);
-        ratingBar = (RatingBar) findViewById(R.id.rbVoteAverage);
-        youTubePlayerView = findViewById(R.id.player);
 
+        movieRatingBar    = (RatingBar) findViewById(R.id.rbVoteAverage);
+        movieSynopsis     = (TextView)  findViewById(R.id.movieSynopsis);
+        movieTitle        = (TextView)  findViewById(R.id.movieTitle);
+        youTubePlayerView = findViewById(R.id.player);
         //Unwrap movie via intent, using key/value pairing. The simple name of Movie is its own key.
-        movie = (Movie) Parcels.unwrap(getIntent().getParcelableExtra(Movie.class.getSimpleName()));
+        movie             = (Movie) Parcels.unwrap(getIntent().getParcelableExtra(Movie.class.getSimpleName()));
         Log.d("MovieAdapter 2", Movie.class.getSimpleName());
 
         Log.d("MovieDetailsActivity", String.format("Showing details for '%s'", movie.getTitle()));
@@ -56,7 +56,7 @@ public class DetailActivity extends YouTubeBaseActivity {
         movieSynopsis.setText(movie.getOverView());
 
         // vote average is 0..10, convert to 0..5 by dividing by 2
-        ratingBar.setRating((float)movie.getVoteAverage());
+        movieRatingBar.setRating((float)movie.getVoteAverage());
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(String.format(YOUTUBE_API_BASE_URL, movie.getMovieId(), YOUTUBE_API_KEY), new JsonHttpResponseHandler() {

@@ -40,14 +40,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        Movie movie = movieList.get(position);
-        holder.bind(movie);
+        holder.bind(movieList.get(position));
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
-        View movieView = LayoutInflater.from(context).inflate(R.layout.item_movie, parent, false);
+        final View movieView = LayoutInflater.from(context).inflate(R.layout.item_movie, parent, false);
         return new ViewHolder(movieView);
     }
 
@@ -66,9 +65,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         }
 
         public void bind(final Movie movie) {
-            String imageUrl = context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? movie.getBackDropPath() : movie.getPosterPath();
-            this.movieTitle.setText(movie.getTitle());
+            final String imageUrl = context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? movie.getBackDropPath() : movie.getPosterPath();
             this.movieSynopsis.setText(movie.getOverView());
+            this.movieTitle.setText(movie.getTitle());
             Glide.with(context).load(imageUrl).into(this.moviePoster);
             this.movieTitle.setOnClickListener(new View.OnClickListener(){
                 @Override

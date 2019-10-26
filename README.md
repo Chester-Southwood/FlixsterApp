@@ -21,13 +21,13 @@ Flix is an app that allows users to browse movies from the [The Movie Database A
 
 ### App Walkthough GIF
 
-`TODO://` Add the URL to your animated app walkthough `gif` in the image tag below, `YOUR_GIF_URL_HERE`. Make sure the gif actually renders and animates when viewing this README. (🚫 Remove this paragraph after after adding gif)
+![User Story](./gifs/part2/userStory.gif)
 
-<img src="YOUR_GIF_URL_HERE" width=250><br>
+![User Story](./gifs/part2/userStory2.gif)
 
 ### Notes
 
-Describe any challenges encountered while building the app.
+The initital parts were mostly straight forward. I didn't have much time to work on past the initial, I do not think I did the bonus fully as I didn't know how it meant to show a preview image for the less popular movies. I assumed we had to do that ourselves similar to how Youtube has a preview image, and when you hover over it shows parts of the video, instead of the preassigned image youtube vidoes have before the play button is pushed. 
 
 ## Open-source libraries used
 - [Android Async HTTP](https://github.com/codepath/CPAsyncHttpClient) - Simple asynchronous HTTP requests with JSON parsing
